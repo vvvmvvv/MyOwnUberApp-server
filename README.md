@@ -56,3 +56,16 @@ API documentation uploaded to repository (created by apidoc)
 Project logic distributed across different directories and files in simple and easy-to-understand structure;
 
 ```
+#
+
+## Work with MERN STACK:
+### Link to repo with react client app(react-hooks) for this backend: https://github.com/vvvmvvv/MyOwnUber-app
+```
+App Fuctionality:
+1.You can Login & Register & Logout
+2.You can open profile information
+3.You can change name & password 
+4.IF you shipper you can delete your profile
+5.All CRUD operations with entity(loads, but trucks not ready)
+6.Searching
+```
