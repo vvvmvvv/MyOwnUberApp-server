@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi');
 
 const registerValidation = (data) => {
-    const schema = {
+    const schema = Joi.object({
         username: Joi.string()
             .min(3)
             .max(30)
@@ -14,12 +14,12 @@ const registerValidation = (data) => {
             .min(6)
             .max(50)
             .required()
-    };
-    return Joi.validate(data, schema);
+    });
+    return schema.validate(data);
 };
 
 const loginValidation = (data) => {
-    const schema = {
+    const schema = Joi.object({
         username: Joi.string()
             .min(6)
             .max(40)
@@ -28,8 +28,8 @@ const loginValidation = (data) => {
             .min(6)
             .max(50)
             .required()
-    };
-    return Joi.validate(data, schema);
+    });
+    return schema.validate(data);
 };
 
 module.exports.registerValidation = registerValidation;

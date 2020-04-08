@@ -6,7 +6,7 @@ const User = require("../../models/User");
 router.get('/', verify, async (req, res) => {
     try{
         const user = await User.findById(req.user.id);
-        if(user.role !== "driver"){
+        if(user.role.toLowerCase() !== "driver"){
             return res.status(400).send("THIS FUNCTIONALITY ONLY FOR DRIVER!");
         }
         const trucks = await Truck.find({created_by: req.user.id});
@@ -17,6 +17,10 @@ router.get('/', verify, async (req, res) => {
 });
 
 router.post('/', verify, async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if(user.role.toLowerCase() === 'shipper'){
+        return res.status(400).send("THIS FUNCTIONALITY ONLY FOR DRIVER!");
+    }
     const truck = new Truck({
         title: req.body.title,
         type: req.body.type,
@@ -35,7 +39,7 @@ router.post('/', verify, async (req, res) => {
 router.get('/:truckId', verify, async (req, res) => {
     try{
         const user = await User.findById(req.user.id);
-        if(user.role !== "driver"){
+        if(user.role.toLowerCase() !== "driver"){
             return res.status(400).send("THIS FUNCTIONALITY ONLY FOR DRIVER!");
         }
         const truck = await Truck.findById(req.params.truckId);
@@ -48,7 +52,7 @@ router.get('/:truckId', verify, async (req, res) => {
 router.delete("/:truckId",verify,  async (req, res) => {
     try{
         const user = await User.findById(req.user.id);
-        if(user.role !== "driver"){
+        if(user.role.toLowerCase() !== "driver"){
             return res.status(400).send("THIS FUNCTIONALITY ONLY FOR DRIVER!");
         }
         const removedTruck = await Truck.deleteOne({_id: req.params.truckId});
@@ -61,7 +65,7 @@ router.delete("/:truckId",verify,  async (req, res) => {
 router.put("/:truckId", verify, async (req, res) => {
     try{
         const user = await User.findById(req.user.id);
-        if(user.role !== "driver"){
+        if(user.role.toLowerCase() !== "driver"){
             return res.status(400).send("THIS FUNCTIONALITY ONLY FOR DRIVER!");
         }
         const updatedTruck = await Truck.findByIdAndUpdate(req.params.truckId,req.body);
@@ -75,7 +79,7 @@ router.put("/:truckId", verify, async (req, res) => {
 router.put("/:truckId/assign", verify, async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
-        if(user.role !== "driver"){
+        if(user.role.toLowerCase() !== "driver"){
             return res.status(400).send("THIS FUNCTIONALITY ONLY FOR DRIVER!");
         }
         const assignedTruck = await Truck.findOne({assigned_to: user._id});

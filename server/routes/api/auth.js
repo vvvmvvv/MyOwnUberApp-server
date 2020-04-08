@@ -8,9 +8,9 @@ const verify = require('../middleware/verify')
 
 router.post('/register', async (req, res) => {
 
-    // VALIDATION
-      // const {error} = registerValidation(req.body);
-      // if(error) return res.status(400).send(error.details.message)
+    // VALIDATION with @hapi/joi
+      const {error} = registerValidation(req.body);
+      if(error) return res.status(400).send(error.details[0].message);
 
     const {username, password, role } = req.body;
     try {
@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
       },
         (err) => {
           if (err) throw err
-          res.json({ "status": "User registered successfully" })
+          res.json({ status: "User registered successfully" })
         }
       )
     } catch (err) {
@@ -50,9 +50,9 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
 
-    // //VALIDATION
-    // const {error} = loginValidation(req.body);
-    // //if(error) return res.status(400).send(error.details[0].message);
+    // //VALIDATION with @hapi/joi
+    const {error} = loginValidation(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
 
     const { username, password } = req.body;
     try {
